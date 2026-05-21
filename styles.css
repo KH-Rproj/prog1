@@ -1,0 +1,736 @@
+/* ==========================================================================
+   ملف التنسيقات الرئيسي (styles.css) - متجر رونق للإكسسوارات اليدوية والهدايا
+   ========================================================================== */
+
+:root {
+  /* 🎨 لوحة الألوان وتصميم الهوية البصرية */
+  --bg-color: #FFF4FD;                  /* خلفية وردية هادئة للغاية ومريحة للعين تناسب طابع الهدايا والقطع اليدوية */
+  --surface-color: rgba(255, 255, 255, 0.82); /* أسطح شفافة ناعمة تدعم تأثير الزجاج المتطور (Glassmorphism) */
+  --surface-solid: #FFFFFF;             /* أسطح بيضاء نقية للعناصر البارزة */
+  --text-primary: #111827;              /* لون النصوص والعناوين الرئيسية (أسود مائل للرمادي الداكن جداً لتباين ممتاز) */
+  --text-secondary: #4B5563;            /* لون الفقرات والنصوص التوضيحية (رمادي متوسط عالي الوضوح) */
+  --accent-color: #D4A373;              /* الذهبي الفاخر المعتمد للجوائز والهوية البصرية الراقية */
+  --accent-hover: #C28E5C;              /* لون التفاعل الذهبي عند مرور مؤشر الفأرة */
+  --border-color: rgba(212, 163, 115, 0.15); /* حدود ناعمة بلون ذهبي خفيف لمنع التشتيت البصري */
+  
+  /* ✍️ عائلات الخطوط المعتمدة */
+  --font-main: 'Almarai', sans-serif;          /* الخط الرئيسي للنصوص، الأزرار، والمدخلات (يمتاز بالوضوح والتباعد المريح) */
+  --font-heading: 'El Messiri', 'Almarai', sans-serif; /* الخط الفني الفاخر المعتمد للعناوين الرئيسية للعلامة التجارية */
+
+  /* 👥 ظلال ناعمة لإعطاء عمق بصري ثلاثي الأبعاد */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 8px 24px rgba(212, 163, 115, 0.06);
+  --shadow-lg: 0 20px 48px rgba(212, 163, 115, 0.12);
+
+  /* ⚡ حركات انتقالية ناعمة وسريعة للتفاعل البصري */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🔄 تصفير الهوامش والخصائص التلقائية للمتصفح */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 🖥️ تهيئة هيكل الصفحة العام وتثبيت مساحة العرض */
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  height: 100vh;           /* تثبيت كامل الارتفاع لمنع التمرير */
+  overflow: hidden;         /* قفل شريط التمرير لإلغاء أي مساحات فارغة وجعل التطبيق يبدو كبرنامج لوحي أصلي */
+  font-weight: 700;         /* خط سميك وواضح للموقع بالكامل كما هو مطلوب في التعديلات */
+  /* خلفية متدرجة ناعمة تضفي لمسة من الحيوية والفخامة */
+  background-image: 
+    radial-gradient(circle at 50% -20%, rgba(255, 240, 252, 1), transparent 80%),
+    radial-gradient(circle at 0% 100%, rgba(255, 230, 248, 0.5), transparent 50%);
+}
+
+/* 🏷️ تنسيقات العناوين البارزة */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* 🔘 أزرار التفاعل الأساسية */
+button {
+  font-family: var(--font-main);
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+/* 💊 أزرار التحكم المستديرة والأنيقة */
+.btn-primary, .btn-secondary, .btn-outline {
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* الزر الذهبي البارز (الحفظ، التأكيد) */
+.btn-primary {
+  background-color: var(--accent-color);
+  color: white;
+  box-shadow: 0 4px 15px rgba(212, 163, 115, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-3px) scale(1.02); /* تأثير الارتفاع الطفيف عند الوقوف */
+  box-shadow: 0 8px 25px rgba(212, 163, 115, 0.5);
+}
+
+/* الزر الثانوي (إضافة قسم) */
+.btn-secondary {
+  background-color: var(--surface-solid);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background-color: #fff9ff;
+  transform: translateY(-2px);
+}
+
+/* الأزرار الحدودية الهادئة (مسح السجل، أدر مجدداً) */
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-color);
+  background-color: rgba(212, 163, 115, 0.05);
+}
+
+/* الأزرار الدائرية الصغيرة (أزرار التحكم العلوية والإغلاق) */
+.icon-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  pointer-events: auto;
+}
+
+.icon-btn:hover {
+  background-color: var(--surface-solid);
+  transform: scale(1.08) rotate(15deg); /* دوران طفيف لزر الترس يضيف مرحاً */
+  border-color: var(--accent-color);
+  box-shadow: var(--shadow-md);
+}
+
+/* 🏗️ الهيكل العام للموقع (تخطيط مرن) */
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* 📋 شريط الترويسة العلوي */
+.app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 10;
+  pointer-events: none; /* يسمح بالضغط على العناصر الموجودة خلف الفراغات */
+}
+
+.header-right {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* شعار المتجر الصغير في الزاوية العلوية */
+.logo-top-right img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: var(--shadow-md);
+  border: 4px solid white;
+  transition: var(--transition-normal);
+}
+
+/* 🎡 مساحة المحتوى المركزي (موقع عجلة الحظ) */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  height: 100%;
+}
+
+/* تغليف العجلة لضمان نسبة الارتفاع والعرض والظل الدائري اللطيف */
+.wheel-wrapper {
+  position: relative;
+  width: 90vw;
+  max-width: 70vh; /* ضبط الحجم والارتفاع نسبة لارتفاع الشاشة لمنع التجاوز على التابلت */
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(var(--shadow-lg));
+}
+
+/* لوحة رسم العجلة نفسها */
+#wheelCanvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 8px solid rgba(255, 255, 255, 0.7);
+  transition: transform cubic-bezier(0.15, 0.8, 0.15, 1); /* حركة دوران انسيابية وحقيقية */
+}
+
+/* 🎯 مؤشر التحديد العلوي (Pointer) */
+.pointer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 40px solid var(--accent-color); /* لون ذهبي ناصع مميز */
+  z-index: 15;
+  filter: drop-shadow(0 4px 8px rgba(212, 163, 115, 0.4));
+  transform-origin: top center;
+  /* تفعيل الارتداد التفاعلي السريع جداً لمحاكاة الاحتكاك بالأوتاد */
+  transition: transform 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* كلاس التكتكة يضاف ويحذف برمجياً لمحاكاة الاهتزاز الفعلي */
+.pointer.tick {
+  transform: translateX(-50%) rotate(16deg);
+}
+
+/* 🔘 زر الدوران الدائري في مركز العجلة */
+.spin-btn-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18%; /* القطر الداخلي بنسبة 18% لإطالة شكل أقسام الجوائز وجعلها أنيقة */
+  height: 18%;
+  border-radius: 50%;
+  background-color: var(--surface-solid);
+  box-shadow: 
+    inset 0 2px 8px rgba(0,0,0,0.06), 
+    0 10px 25px rgba(212, 163, 115, 0.2);
+  z-index: 5;
+  border: 5px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.spin-btn-center:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  box-shadow: 
+    inset 0 2px 8px rgba(0,0,0,0.06), 
+    0 12px 30px rgba(212, 163, 115, 0.3);
+}
+
+.spin-btn-center:active {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+.spin-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.center-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-fast);
+}
+
+/* كلمة "العب" في المركز */
+.spin-text {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+}
+
+/* 🗃️ لوحة حفظ الجوائز الجانبية (Inventory) */
+.sidebar {
+  width: 320px;
+  background-color: var(--surface-color);
+  backdrop-filter: blur(16px);
+  border-right: 1px solid var(--border-color); /* حدود فاصلة من اليمين (RTL) */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 8;
+  height: 100%;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.sidebar-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* قائمة عرض الجوائز المحفوظة بالتمرير */
+.inventory-list {
+  list-style: none;
+  flex: 1;
+  overflow-y: auto;          /* تمرير داخلي مغلق للمستند */
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-left: 0.5rem;      /* إزاحة جهة اليسار لتجنب تغطية شريط التمرير */
+}
+
+/* كارت الجائزة المحفوظة */
+.inventory-item {
+  background-color: var(--surface-solid);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid rgba(212, 163, 115, 0.08);
+  animation: slideInRight 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+}
+
+.inventory-item .color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.inventory-item .item-text {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+/* 🎛️ لوحة التحكم والإعدادات الجانبية */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(255, 244, 253, 0.4); /* غطاء خلفي وردي تفاعلي ناعم */
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  justify-content: flex-start; /* تبدأ القائمة من الحافة اليمنى لليمين (RTL) */
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.settings-panel {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--surface-solid);
+  height: 100%;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;          /* تمرير داخلي مغلق للمستند لضمان التجاوب */
+}
+
+/* انزلاق الإعدادات إلى الخارج جهة اليمين في نمط RTL */
+.overlay.hidden .settings-panel {
+  transform: translateX(100%);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.settings-section {
+  margin-bottom: 2.5rem;
+}
+
+.settings-section h3 {
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* محرر أقسام العجلة التفاعلي */
+.segment-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.segment-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* حقل النص */
+.segment-row input[type="text"] {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  color: var(--text-primary);
+  background-color: var(--bg-color);
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.segment-row input[type="text"]:focus {
+  border-color: var(--accent-color);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.1);
+}
+
+/* أداة التقاط اللون المخصصة */
+.segment-row input[type="color"] {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: none;
+}
+
+.segment-row input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.segment-row input[type="color"]::-webkit-color-swatch {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+/* زر الحذف */
+.btn-remove {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: var(--transition-fast);
+}
+
+.btn-remove:hover {
+  transform: scale(1.15);
+  color: #fa5252;
+}
+
+/* عناصر الإعدادات والمفاتيح */
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.setting-item label {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.setting-item input[type="number"] {
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  width: 100px;
+  outline: none;
+  background-color: var(--bg-color);
+  transition: var(--transition-fast);
+}
+
+.setting-item input[type="number"]:focus {
+  border-color: var(--accent-color);
+  background-color: white;
+}
+
+.toggle-item {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* مفتاح التبديل المستدير الأنيق (iOS Style Switch) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: .4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input:checked + .slider {
+  background-color: var(--accent-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px); /* إزاحة المؤشر جهة اليسار/اليمين بنعومة */
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* 🏆 النافذة الاحتفالية للفوز وإعلان النتائج (Modal Overlay) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(255, 244, 253, 0.88); /* مطابقة للون الوردية الهادئة للمتجر بنسبة إعتام عالية للتركيز */
+  backdrop-filter: blur(12px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* صندوق النتيجة المرتفع */
+.modal-content {
+  background-color: var(--surface-solid);
+  padding: 4.5rem 3.5rem;
+  border-radius: 28px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  max-width: 520px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transform: translateY(0) scale(1);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.hidden .modal-content {
+  transform: translateY(30px) scale(0.95);
+}
+
+/* زينة الخلفية الملونة داخل الصندوق */
+.modal-decoration {
+  position: absolute;
+  top: -60px;
+  left: -60px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(212, 163, 115, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+/* عنوان النافذة (مثل: "مبروك! فزت بـ:") بلون رمادي داكن ناصع ومستقل لقراءة ممتازة */
+.modal-title {
+  font-size: 2.1rem;
+  color: var(--text-secondary); /* لون رمادي متوسط للمقدمة */
+  margin-bottom: 0.8rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* نص النتيجة والجائزة الفعلي بلون ذهبي ناصع ومميز وحجم ضخم جداً كما تم تعديله */
+.modal-result {
+  font-size: 3rem;           /* حجم ضخم واضح وجذاب للغاية للزائر */
+  font-weight: 800;
+  margin-bottom: 2.2rem;
+  color: var(--accent-color); /* لون ذهبي فاخر ومميز للجائزة */
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(212, 163, 115, 0.15);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+/* 🏷️ كلاسات الخدمات المساعدة */
+.hidden {
+  display: none !important;
+}
+
+/* 🎥 المؤثرات الحركية للجوائز الجانبية */
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+/* 📱 شاشات الخدمات والأجهزة المحمولة */
+.mobile-only {
+  display: none;
+}
+
+/* 🎬 المؤثرات الاحتفالية (Confetti Canvas Overlay) */
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 250; /* فوق صندوق النتيجة لإمطار الشاشة بالكامل */
+}
+
+/* ==========================================================================
+   🌐 شاشات التوافق والاستجابة (Media Queries) - للأجهزة اللوحية والمحمولة
+   ========================================================================== */
+
+/* متوافق ومثالي للتابلت بمقاس 12.1 إنش وتحت */
+@media (max-width: 992px) {
+  .app-container {
+    flex-direction: column; /* تحويل التخطيط إلى عمودي ليتناسب مع اللمس */
+  }
+  
+  /* القائمة الجانبية تتحول إلى منزلق سفلي/جانبي تفاعلي للتابلت */
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 100%;
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .mobile-only {
+    display: flex;
+  }
+  
+  .main-content {
+    padding: 1.5rem;
+    padding-top: 5.5rem;
+    height: calc(100vh - 80px);
+  }
+
+  .wheel-wrapper {
+    max-width: 75vw;
+    max-height: 75vw;
+  }
+
+  .modal-title {
+    font-size: 1.8rem;
+  }
+  
+  .modal-result {
+    font-size: 2.4rem;
+  }
+}

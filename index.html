@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عجلة الحظ | متجر رونق للإكسسوارات وهدايا الهاند ميد</title>
+  <meta name="description" content="عجلة حظ تفاعلية أنيقة وفاخرة لفعاليات وعروض متجر رونق للإكسسوارات اليدوية والهدايا.">
+  
+  <!-- استدعاء ملف التنسيقات الرئيسي للموقع -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- استيراد الخطوط الفاخرة من Google Fonts لدعم اللغة العربية بشكل مثالي -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&family=El+Messiri:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- استدعاء مكتبة Font Awesome لتوفير الأيقونات التفاعلية الأنيقة -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- الحاوية الأساسية للتطبيق - تجمع كل أجزاء الواجهة في شاشة موحدة -->
+  <div class="app-container">
+    
+    <!-- ترويسة التطبيق (شريط التحكم العلوي) -->
+    <header class="app-header">
+      <!-- زر لفتح قائمة إعدادات العجلة والتفضيلات -->
+      <button id="btnSettings" class="icon-btn" aria-label="الإعدادات"><i class="fas fa-cog"></i></button>
+      
+      <div class="header-right">
+        <!-- مساحة الشعار البديلة في الزاوية العلوية اليمنى (يتم تفعيلها من الإعدادات) -->
+        <div class="logo-top-right hidden" id="logoTopRight">
+          <img src="./logo.png" alt="شعار العلامة التجارية">
+        </div>
+        <!-- زر فتح قائمة الجوائز المحفوظة للأجهزة المحمولة فقط -->
+        <button id="btnInventory" class="icon-btn mobile-only" aria-label="الجوائز"><i class="fas fa-list"></i></button>
+      </div>
+    </header>
+
+    <!-- منطقة المحتوى الرئيسي (تحتوي على عجلة الحظ الاحترافية) -->
+    <main class="main-content">
+      <div class="wheel-wrapper">
+        <!-- مؤشر التحديد العلوي (Pointer) - يتأرجح وينثني تفاعلياً عند الدوران -->
+        <div class="pointer"></div>
+        
+        <!-- لوحة رسم العجلة (Canvas) - يتم توليد الأقسام والتأثيرات عليها برمجياً بدقة عالية -->
+        <canvas id="wheelCanvas" width="800" height="800"></canvas>
+        
+        <!-- زر الدوران المركزي - يحتوي على شعار المتجر في المنتصف لتجربة تفاعلية رائعة -->
+        <button id="btnSpinCenter" class="spin-btn-center" aria-label="أدر العجلة">
+          <div class="spin-content" id="spinContent">
+            <!-- الشعار المركزي داخل العجلة -->
+            <img src="./logo.png" alt="شعار العلامة التجارية" class="center-logo" id="centerLogoImg">
+            <!-- كلمة 'العب' تظهر كبديل إذا تم نقل الشعار للزاوية اليمنى -->
+            <span class="spin-text hidden" id="centerSpinText">العب</span>
+          </div>
+        </button>
+      </div>
+    </main>
+
+    <!-- القائمة الجانبية (الأرشيف) - لعرض الجوائز التي تم حفظها وتخزينها محلياً -->
+    <aside class="sidebar" id="inventorySidebar">
+      <div class="sidebar-header">
+        <h2>الجوائز المحفوظة</h2>
+        <!-- زر إغلاق القائمة الجانبية للأجهزة المحمولة -->
+        <button id="btnCloseInventory" class="icon-btn mobile-only" aria-label="إغلاق"><i class="fas fa-times"></i></button>
+      </div>
+      <!-- قائمة الجوائز المحفوظة (يتم توليد عناصرها ديناميكياً عبر الجافا سكريبت) -->
+      <ul id="inventoryList" class="inventory-list">
+        <!-- تمتلئ العناصر هنا برمجياً -->
+      </ul>
+      <!-- زر مسح سجل الأرباح المحفوظة لإعادة البدء من جديد -->
+      <button id="btnClearInventory" class="btn-outline">مسح السجل</button>
+    </aside>
+
+    <!-- لوحة التحكم الجانبية بالإعدادات (تظهر كنافذة منبثقة من اليمين) -->
+    <div class="overlay hidden" id="settingsOverlay">
+      <div class="settings-panel">
+        <div class="settings-header">
+          <h2>الإعدادات</h2>
+          <!-- زر إغلاق لوحة الإعدادات -->
+          <button id="btnCloseSettings" class="icon-btn" aria-label="إغلاق"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <!-- إعدادات الأقسام وتعديل نصوصها وألوانها -->
+        <div class="settings-section segments-section">
+          <h3>أقسام العجلة</h3>
+          <!-- محرر الأقسام التفاعلي - يتيح كتابة الجوائز واختيار الألوان وحذف الأقسام -->
+          <div id="segmentEditor" class="segment-editor">
+            <!-- يتم توليد أسطر الأقسام ديناميكياً هنا -->
+          </div>
+          <!-- زر لإضافة قسم جديد للعجلة بلون متناسق تلقائياً -->
+          <button id="btnAddSegment" class="btn-secondary"><i class="fas fa-plus"></i> إضافة قسم جديد</button>
+        </div>
+
+        <!-- التفضيلات العامة للعجلة والتحكم بالدوران والأصوات -->
+        <div class="settings-section">
+          <h3>التفضيلات والتحكم</h3>
+          <!-- التحكم في مدة الدوران لبناء التشويق والحماس -->
+          <div class="setting-item">
+            <label for="inputDuration">مدة الدوران (ثواني)</label>
+            <input type="number" id="inputDuration" min="1" max="15" value="5">
+          </div>
+          <!-- مفتاح نقل الشعار بين المنتصف والزاوية العلوية -->
+          <div class="setting-item toggle-item">
+            <label for="toggleLogoPosition">الشعار في المنتصف (للدوران)</label>
+            <label class="switch">
+              <input type="checkbox" id="toggleLogoPosition" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <!-- مفتاح تفعيل أو تعطيل التكتكة الواقعية بأداء عالٍ -->
+          <div class="setting-item toggle-item">
+            <label for="toggleSound">تفعيل المؤثرات الصوتية</label>
+            <label class="switch">
+              <input type="checkbox" id="toggleSound">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة إعلان الفوز/النتيجة التفاعلية (تظهر في المنتصف فور التوقف) -->
+    <div class="modal-overlay hidden" id="winModal">
+      <div class="modal-content">
+        <!-- زينة بصرية خلفية ناعمة -->
+        <div class="modal-decoration"></div>
+        <!-- عنوان النتيجة: يتغير ديناميكياً بين تهنئة الفوز ومواساة الخسارة -->
+        <h2 class="modal-title">مبروك! فزت بـ:</h2>
+        <!-- نص النتيجة الفعلي: يظهر بحجم ضخم ولون مستقل فاخر لسهولة القراءة والجاذبية -->
+        <p class="modal-result" id="winResultText">سلسلة فضية فريدة</p>
+        <!-- الإجراءات المتاحة للمستخدم بعد انتهاء الدوران -->
+        <div class="modal-actions">
+          <button id="btnSaveResult" class="btn-primary">حفظ النتيجة</button>
+          <button id="btnSpinAgain" class="btn-outline">أدرها مرة أخرى</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- حاوية القصاصات الملونة الاحتفالية (Confetti Canvas) - تغطي الشاشة بأكملها فور الفوز -->
+  <canvas id="confettiCanvas"></canvas>
+  
+  <!-- استدعاء المنطق البرمجي والفيزيائي للعجلة والتخزين المحلي -->
+  <script src="app.js"></script>
+</body>
+</html>
