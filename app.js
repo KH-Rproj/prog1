@@ -523,42 +523,50 @@ function renderSettingsSegments() {
 // 📺 نظام ملء الشاشة الفعال والتفاعل الغامر (Browser Fullscreen Manager)
 // ==========================================================================
 
-// دالة التبديل الذكية لوضع ملء الشاشة (Fullscreen API) بالتزامن مع كلاس التجميل للتصميم
+// دالة التبديل الذكية لوضع ملء الشاشة (من خلال الدمج الفوري لوضع الكلاس الافتراضي والـ API البرمجي للمتصفح)
 function toggleFullscreen() {
-  // فحص ما إذا كان المتصفح يعرض شاشة كاملة حالياً بأي من الصيغ المدعومة
-  if (!document.fullscreenElement && 
-      !document.webkitFullscreenElement && 
-      !document.mozFullScreenElement && 
-      !document.msFullscreenElement) {
-    
-    // الدخول في وضع الشاشة الكاملة
-    const docEl = document.documentElement;
-    if (docEl.requestFullscreen) {
-      docEl.requestFullscreen();
-    } else if (docEl.webkitRequestFullscreen) { /* متصفحات Safari و iOS */
-      docEl.webkitRequestFullscreen();
-    } else if (docEl.mozRequestFullScreen) {    /* متصفح Firefox القديم */
-      docEl.mozRequestFullScreen();
-    } else if (docEl.msRequestFullscreen) {     /* متصفح Internet Explorer / Edge */
-      docEl.msRequestFullscreen();
-    }
-    
-    document.body.classList.add('fullscreen-active'); // إضافة الكلاس لتفعيل التصميم الغامر وتكبير العجلة
+  // فحص ما إذا كان كلاس ملء الشاشة الافتراضي مفعلاً حالياً
+  const isCurrentlyFS = document.body.classList.contains('fullscreen-active');
+  
+  if (!isCurrentlyFS) {
+    // 1. تفعيل التصميم الافتراضي الغامر فوراً ومؤكداً بصرف النظر عن دعم المتصفح لتكبير العجلة بالكامل
+    document.body.classList.add('fullscreen-active');
     updateFullscreenIcon(true);
-  } else {
-    // الخروج من وضع الشاشة الكاملة
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
     
-    document.body.classList.remove('fullscreen-active'); // إزالة الكلاس للعودة للتصميم الطبيعي والقوائم الجانبية
+    // 2. محاولة الدخول برمجياً لوضع ملء الشاشة الفعلي وإخفاء أشرطة التصفح (تُحمى بـ try...catch لضمان كروم الهواتف)
+    try {
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.webkitRequestFullscreen) { /* متصفحات Safari و iOS */
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.mozRequestFullScreen) {    /* متصفح Firefox */
+        docEl.mozRequestFullScreen();
+      } else if (docEl.msRequestFullscreen) {     /* متصفح Internet Explorer / Edge */
+        docEl.msRequestFullscreen();
+      }
+    } catch (e) {
+      console.warn("نظام ملء الشاشة البرمجي مقيد من قبل المتصفح، تم الاكتفاء بملء الشاشة الافتراضي CSS:", e);
+    }
+  } else {
+    // 1. إزالة التصميم الافتراضي الغامر والعودة للوضع الطبيعي واللوحات الجانبية فوراً
+    document.body.classList.remove('fullscreen-active');
     updateFullscreenIcon(false);
+    
+    // 2. محاولة الخروج برمجياً من وضع ملء الشاشة الفعلي (تُحمى بـ try...catch لتلافي الأخطاء)
+    try {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } catch (e) {
+      console.warn("فشل الخروج البرمجي من الشاشة الكاملة:", e);
+    }
   }
 }
 
@@ -590,6 +598,26 @@ function handleFullscreenChange() {
   }
 }
 
+// دالة التبديل الذكية لفتح وإغلاق القائمة الجانبية للجوائز بالتزامن مع تغيير الأيقونة تفاعلياً لمنع التداخل
+function toggleInventorySidebar() {
+  const isOpen = inventorySidebar.classList.contains('open');
+  const icon = btnInventory.querySelector('i');
+  
+  if (!isOpen) {
+    // فتح القائمة الجانبية للجوائز المنسدلة من اليسار
+    inventorySidebar.classList.add('open');
+    if (icon) {
+      icon.className = 'fas fa-times'; // تحويل الأيقونة فوراً إلى علامة الإغلاق (X) لتلافي التداخل الجغرافي
+    }
+  } else {
+    // إغلاق القائمة الجانبية للجوائز
+    inventorySidebar.classList.remove('open');
+    if (icon) {
+      icon.className = 'fas fa-list';  // إعادة الأيقونة مجدداً لعلامة السجل والقائمة بعد الإغلاق الموفق
+    }
+  }
+}
+
 // ==========================================================================
 // 🎧 تفعيل وربط أحداث النقرات والتفاعل (Event Listeners Setup)
 // ==========================================================================
@@ -610,9 +638,15 @@ function setupEventListeners() {
   document.addEventListener('mozfullscreenchange', handleFullscreenChange);
   document.addEventListener('MSFullscreenChange', handleFullscreenChange);
   
-  // فتح وإغلاق قائمة أرشيف الجوائز للأجهزة الذكية واللوحية
-  btnInventory.addEventListener('click', () => inventorySidebar.classList.add('open'));
-  btnCloseInventory.addEventListener('click', () => inventorySidebar.classList.remove('open'));
+  // فتح وإغلاق قائمة أرشيف الجوائز عبر مفتاح التبديل الذكي والأيقونة التفاعلية
+  btnInventory.addEventListener('click', toggleInventorySidebar);
+  btnCloseInventory.addEventListener('click', () => {
+    inventorySidebar.classList.remove('open');
+    const icon = btnInventory.querySelector('i');
+    if (icon) {
+      icon.className = 'fas fa-list'; // تصفير الأيقونة لرمز القائمة فور الإغلاق الثانوي
+    }
+  });
   
   // زر إضافة قسم جديد للعجلة
   btnAddSegment.addEventListener('click', () => {
