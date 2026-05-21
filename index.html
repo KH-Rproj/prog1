@@ -23,15 +23,20 @@
     
     <!-- ترويسة التطبيق (شريط التحكم العلوي) -->
     <header class="app-header">
-      <!-- زر لفتح قائمة إعدادات العجلة والتفضيلات -->
-      <button id="btnSettings" class="icon-btn" aria-label="الإعدادات"><i class="fas fa-cog"></i></button>
+      <!-- أزرار التحكم والخيارات جهة اليسار (زر الإعدادات وزر الشاشة الكاملة) -->
+      <div class="header-left">
+        <!-- زر لفتح قائمة إعدادات العجلة والتعديل على الأقسام والألوان -->
+        <button id="btnSettings" class="icon-btn" aria-label="الإعدادات"><i class="fas fa-cog"></i></button>
+        <!-- زر للتبديل لوضع الشاشة الكاملة (Fullscreen Mode) لتكبير العجلة بالكامل وإلغاء العوائق البصرية -->
+        <button id="btnFullscreen" class="icon-btn" aria-label="الشاشة الكاملة"><i class="fas fa-expand"></i></button>
+      </div>
       
       <div class="header-right">
-        <!-- مساحة الشعار البديلة في الزاوية العلوية اليمنى (يتم تفعيلها من الإعدادات) -->
+        <!-- مساحة الشعار البديلة في الزاوية العلوية اليمنى (يتم تفعيلها من لوحة الإعدادات) -->
         <div class="logo-top-right hidden" id="logoTopRight">
           <img src="./logo.png" alt="شعار العلامة التجارية">
         </div>
-        <!-- زر فتح قائمة الجوائز المحفوظة للأجهزة المحمولة فقط -->
+        <!-- زر فتح قائمة الجوائز المحفوظة المخصص للأجهزة المحمولة واللوحية فقط -->
         <button id="btnInventory" class="icon-btn mobile-only" aria-label="الجوائز"><i class="fas fa-list"></i></button>
       </div>
     </header>

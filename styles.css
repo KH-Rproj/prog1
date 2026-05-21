@@ -38,10 +38,10 @@
 body {
   font-family: var(--font-main);
   background-color: var(--bg-color);
-  color: var(--text-primary);
+  color: var(--text-secondary); /* تم تعديله ليكون بلون النصوص الثانوي الناعم، بينما العناوين تأخذ اللون الداكن الأساسي لتباين ممتاز */
   height: 100vh;           /* تثبيت كامل الارتفاع لمنع التمرير */
   overflow: hidden;         /* قفل شريط التمرير لإلغاء أي مساحات فارغة وجعل التطبيق يبدو كبرنامج لوحي أصلي */
-  font-weight: 700;         /* خط سميك وواضح للموقع بالكامل كما هو مطلوب في التعديلات */
+  font-weight: 700;         /* خط سميك وواضح للموقع بالكامل كما هو مطلوب في التعديلات لسهولة القراءة */
   /* خلفية متدرجة ناعمة تضفي لمسة من الحيوية والفخامة */
   background-image: 
     radial-gradient(circle at 50% -20%, rgba(255, 240, 252, 1), transparent 80%),
@@ -162,6 +162,13 @@ button {
   align-items: flex-start;
   z-index: 10;
   pointer-events: none; /* يسمح بالضغط على العناصر الموجودة خلف الفراغات */
+}
+
+.header-left {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  pointer-events: none; /* لتجاوز الفراغات ولكن عناصرها الداخلية كالأزرار تكون قابلة للضغط بصورة طبيعية */
 }
 
 .header-right {
@@ -624,10 +631,10 @@ input:checked + .slider:before {
   opacity: 0.7;
 }
 
-/* عنوان النافذة (مثل: "مبروك! فزت بـ:") بلون رمادي داكن ناصع ومستقل لقراءة ممتازة */
+/* عنوان النافذة (مثل: "مبروك! فزت بـ:") بلون داكن فخم جداً ومستقل عن النص التوضيحي وعن الجائزة */
 .modal-title {
   font-size: 2.1rem;
-  color: var(--text-secondary); /* لون رمادي متوسط للمقدمة */
+  color: var(--text-primary);  /* تم التعديل إلى لون العناوين الرئيسي الداكن لتمييزه كلياً عن النتيجة ولتحقيق تباين لوني ممتاز */
   margin-bottom: 0.8rem;
   font-family: var(--font-heading);
   font-weight: 700;
@@ -734,3 +741,62 @@ input:checked + .slider:before {
     font-size: 2.4rem;
   }
 }
+
+/* ==========================================================================
+   📺 وضع الشاشة الكاملة التفاعلي وتكبير عجلة الحظ (Immersive Fullscreen CSS)
+   ========================================================================== */
+
+/* كلاس يُضاف لجسم الصفحة عند تفعيل وضع الشاشة الكاملة لتوفر مساحة عرض قصوى وخالية من التشتيت */
+body.fullscreen-active {
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 235, 252, 1), #FFF4FD 100%) !important;
+}
+
+/* إخفاء القائمة الجانبية بالكامل في وضع الشاشة الكاملة لتوفير مساحة قصوى للعجلة */
+body.fullscreen-active .sidebar {
+  display: none !important;
+}
+
+/* إخفاء شعار الترويسة في الزاوية وأزرار الجوائز الجانبية الإضافية لتقليل تشتت الزوار */
+body.fullscreen-active .logo-top-right,
+body.fullscreen-active #btnInventory {
+  display: none !important;
+}
+
+/* تحسين موضع شريط الترويسة العلوي ليكون عائماً بنعومة أثناء ملء الشاشة */
+body.fullscreen-active .app-header {
+  padding: 1rem 1.5rem;
+}
+
+/* توسيع منطقة المحتوى لأقصى مساحة متاحة في الشاشة وتوسيط اللعبة بشكل رائع */
+body.fullscreen-active .main-content {
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* تكبير مقاس العجلة بشكل هائل وفخم لملء شاشة التابلت أو شاشة العرض بالكامل وجذب انتباه الزوار */
+body.fullscreen-active .wheel-wrapper {
+  max-width: 90vh !important; /* حجم عملاق للعجلة يتكيف ديناميكياً مع طول الشاشة المتاحة */
+  max-height: 90vh !important;
+  width: 95vw !important;
+}
+
+/* ==========================================================================
+   🔒 حماية وتأمين واجهة التفاعل أثناء دوران العجلة (UX Lock)
+   ========================================================================== */
+
+/* كلاس يُضاف ديناميكياً لجسم الصفحة عند الدوران لمنع العبث بالخيارات وتعديل الأقسام أثناء حركة العجلة */
+body.spinning-active .header-left,
+body.spinning-active .header-right,
+body.spinning-active .sidebar,
+body.spinning-active .settings-panel,
+body.spinning-active .overlay {
+  pointer-events: none !important; /* تعطيل النقرات واللمس تماماً لمنع التداخلات أثناء حركة العجلة */
+  opacity: 0.6;                  /* تظليل بصري خفيف للإشارة إلى تعطل الأزرار مؤقتاً */
+  transition: opacity var(--transition-normal);
+}
+
